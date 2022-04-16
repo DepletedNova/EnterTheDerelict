@@ -17,8 +17,8 @@ namespace Assets.Scripts.Weapons
             var localScale = playerShip.gameObject.transform.localScale;
             List<GameObject> projectiles = new List<GameObject>()
             {
-                CreateProjectile(playerShip, 5, 6, 1, new Vector3(.25f, .25f, 1), new Vector2(Mathf.Max(localScale.x, localScale.y), 0.25f)),
-                CreateProjectile(playerShip, 5, 6, 1, new Vector3(.25f, .25f, 1), new Vector2(Mathf.Max(localScale.x, localScale.y), -0.25f)),
+                CreateProjectile(playerShip, 1, 5, 10, 1, new Vector3(.25f, .25f, 1), new Vector2(Mathf.Max(localScale.x, localScale.y), 0.25f)),
+                CreateProjectile(playerShip, 1, 5, 10, 1, new Vector3(.25f, .25f, 1), new Vector2(Mathf.Max(localScale.x, localScale.y), -0.25f)),
             };
 
             return projectiles;

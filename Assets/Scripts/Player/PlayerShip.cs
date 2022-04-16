@@ -1,6 +1,8 @@
 using Assets.Scripts;
+using Assets.Scripts.Base;
 using Assets.Scripts.Ships;
 using Assets.Scripts.Weapons;
+using Assets.Scripts.Weapons.Enemy;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,11 +10,13 @@ using UnityEngine;
 public class PlayerShip : BaseShip
 {
     public override ShipType shipType => ShipType.PLAYER;
-
-    public void Start()
+	
+	public sealed override (Ship ship, Weapon weapon) Defaults => (new DefaultShip(), new DefaultWeapon());
+	
+    public override void Start()
     {
-        UpdateShip(new DefaultShip());
-        UpdateWeapon(new DefaultWeapon());
+		base.Start();
+        Wrapping = true;
         Game.instance.player = this;
     }
 
@@ -21,9 +25,15 @@ public class PlayerShip : BaseShip
     public override void FixedUpdate()
     {
         base.FixedUpdate();
+        var particleComp = GetComponent<ParticleSystem>();
 
         // Movement
-        if (rightMouseDown) AddMovement(transform.up);
+        if (rightMouseDown)
+        {
+            AddMovement(transform.up);
+            if (!particleComp.isEmitting) particleComp.Play(true);
+        }
+        else if (particleComp.isPlaying) particleComp.Stop(true, ParticleSystemStopBehavior.StopEmitting);
 
         weaponData.FireWeapon(this, leftMouseDown);
     }

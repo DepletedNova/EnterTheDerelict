@@ -82,7 +82,7 @@ public abstract class BaseShip : MonoBehaviour
     // Damage
     public void TakeDamage(float amount, BaseShip Source)
     {
-        if (Source.shipType != shipType)
+        if (Source != null && Source.shipType != shipType)
         {
             if (invCurrent >= invTime)
             {
@@ -126,7 +126,7 @@ public abstract class BaseShip : MonoBehaviour
             Vector3 up = q * Vector3.up;
             Momentum -= up * 4;
             var hitShip = collision.gameObject.GetComponent<BaseShip>();
-            TakeDamage(hitShip.shipData.HullDamage * hitShip.HullDamageMod, hitShip);
+            if (hitShip != null) TakeDamage(hitShip.shipData.HullDamage * hitShip.HullDamageMod, hitShip);
         }
     }
 }

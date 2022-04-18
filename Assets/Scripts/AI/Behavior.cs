@@ -10,8 +10,8 @@ public abstract class Behavior
 
     public abstract bool FixedUpdateActive(BaseAIShip currentShip);
 
-    protected float GetDistance(BaseShip currentShip, BaseShip targetShip) =>
-        Vector3.Distance(currentShip.gameObject.transform.position, targetShip.transform.position);
+    protected float GetDistance(GameObject currentShip, GameObject targetShip) =>
+        Vector3.Distance(currentShip.transform.position, targetShip.transform.position);
 
     protected BaseShip GetShipFromTargetType(BaseAIShip currentShip, ShipType target)
     {
@@ -22,13 +22,35 @@ public abstract class Behavior
         {
             if (ship.shipType == target)
             {
-                var dist = GetDistance(currentShip, ship);
+                var dist = GetDistance(currentShip.gameObject, ship.gameObject);
                 if (dist < objDistance)
                 {
                     closeShip = ship;
+                    objDistance = dist;
                 }
             }
         }
         return closeShip;
+    }
+
+    protected T GetMiscPhysicsObject<T>(BaseAIShip currentShip, bool useDist = true) where T : MonoBehaviour
+    {
+        var hub = GameObject.Find("Misc");
+        float objDistance = 999;
+        if (!useDist) return hub.GetComponentInChildren<T>();
+        else
+        {
+            T closeComp = null;
+            foreach (var comp in hub.GetComponentsInChildren<T>())
+            {
+                float dist = GetDistance(currentShip.gameObject, comp.gameObject);
+                if (dist < objDistance)
+                {
+                    closeComp = comp;
+                    objDistance = dist;
+                }
+            }
+            return closeComp;
+        }
     }
 }

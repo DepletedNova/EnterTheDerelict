@@ -12,6 +12,8 @@ namespace Assets.Scripts
     {
         public static Game instance;
 
+        public (bool Ship, bool Weapon) CratesAppeared = (false, false);
+
         public bool inGameActive = true;
         public uint Wave = 0;
 
@@ -22,10 +24,10 @@ namespace Assets.Scripts
         // Waves
         public List<(Type type, float Count, float Difficulty)> EnemyGroups = new List<(Type, float, float)>()
         {
-            //(typeof(TestEnemy), 4, 1),
-            (typeof(BasicEnemy), 2, 1),
+            /*(typeof(BasicEnemy), 1, 0.35f),
             (typeof(SwarmEnemy), 10, 1),
-            (typeof(SniperEnemy), 1, 0.5f),
+            (typeof(SniperEnemy), 1, 0.5f),*/
+            (typeof(TestEnemy), 1, 1)
         };
 
         bool spawningWave = false;
@@ -39,7 +41,7 @@ namespace Assets.Scripts
                     spawningWave = true;
                     Wave++;
                     List<(Type type, float Count, float Difficulty)> ps = new List<(Type, float, float)>();
-                    float points = Mathf.Ceil(Wave / 10f);
+                    float points = Mathf.Ceil(Wave / 5f);
                     float pointsused = 0f;
                     for (int x = 0; x < 10; x++)
                     {
@@ -53,7 +55,7 @@ namespace Assets.Scripts
 
                     foreach (var enemyGroup in ps)
                     {
-                        SpawnGroup(enemyGroup.type, enemyGroup.Count);
+                        SpawnGroup(enemyGroup.type, enemyGroup.Count + Mathf.Floor(Wave / 8f));
                     }
 
                     spawningWave = false;
@@ -65,7 +67,7 @@ namespace Assets.Scripts
         {
             for (int i = 0; i < Count; i++)
             {
-                GameObject enemy = GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/Enemy"));
+                GameObject enemy = GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/Ship"));
                 enemy.transform.parent = transform;
                 enemy.transform.rotation = Quaternion.Euler(0, 0, UnityEngine.Random.Range(0, 360));
                 enemy.transform.position -= enemy.transform.up * 

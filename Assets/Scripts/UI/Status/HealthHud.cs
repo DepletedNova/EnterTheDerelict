@@ -16,7 +16,8 @@ namespace Assets.Scripts.UI.Status
                 var player = Game.instance.player;
 
                 GetComponent<RectTransform>().sizeDelta = new Vector2(player.shipData.Health * 5, 20);
-                gameObject.transform.Find("Bar").GetComponent<RectTransform>().sizeDelta = new Vector2((player.Health - player.shipData.Health) * 5, 20);
+                gameObject.transform.Find("Bar").GetComponent<RectTransform>().sizeDelta = 
+                    new Vector2(player != null ? (player.Health - player.shipData.Health) * 5 : GetComponent<RectTransform>().sizeDelta.x, 20);
             }
         }
     }

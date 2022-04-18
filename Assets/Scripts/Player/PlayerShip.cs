@@ -1,7 +1,9 @@
 using Assets.Scripts;
 using Assets.Scripts.Base;
 using Assets.Scripts.Ships;
+using Assets.Scripts.Ships.Crate;
 using Assets.Scripts.Weapons;
+using Assets.Scripts.Weapons.Crate;
 using Assets.Scripts.Weapons.Enemy;
 using System.Collections;
 using System.Collections.Generic;

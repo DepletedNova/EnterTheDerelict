@@ -18,10 +18,12 @@ namespace Assets.Scripts.AI.Ordered
                 Mathf.Abs(pos.position.x) < aspectOrtho)
             {
                 currentShip.Wrapping = true;
+                currentShip.Moving = false;
                 return true;
             }
             currentShip.RotateToVector(Vector3.zero);
             currentShip.AddMovement(currentShip.transform.up);
+            currentShip.Moving = true;
             return false;
         }
     }

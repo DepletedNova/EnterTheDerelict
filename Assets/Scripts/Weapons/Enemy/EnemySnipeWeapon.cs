@@ -18,7 +18,7 @@ namespace Assets.Scripts.Weapons.Enemy
         {
             List<GameObject> projectiles = new List<GameObject>()
             {
-                CreateProjectile(playerShip, 2, 20, 7, 3, new Vector3(.25f, .5f, 1), new Vector2(GetShipScale(), 0f)),
+                CreateProjectile(playerShip, 2, 20, 7, 3, new Vector3(.25f, .5f, 1), new Vector2(GetShipScale() / 2, 0)),
             };
 
             return projectiles;

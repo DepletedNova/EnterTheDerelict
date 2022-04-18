@@ -24,8 +24,10 @@ namespace Assets.Scripts.AI.Ordered
             {
                 currentShip.RotateToVector(target.transform.position);
                 currentShip.AddMovement(currentShip.transform.up);
-                if (GetDistance(currentShip, target) <= Distance)
+                currentShip.Moving = true;
+                if (GetDistance(currentShip.gameObject, target.gameObject) <= Distance)
                 {
+                    currentShip.Moving = false;
                     return true;
                 }
             }

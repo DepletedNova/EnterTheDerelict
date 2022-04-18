@@ -24,7 +24,7 @@ namespace Assets.Scripts.AI.Ordered
             {
                 currentShip.RotateToVector(target.transform.position);
                 currentShip.weaponData.FireWeapon(currentShip, true);
-                if (GetDistance(currentShip, target) >= Distance)
+                if (GetDistance(currentShip.gameObject, target.gameObject) >= Distance)
                 {
                     return true;
                 }

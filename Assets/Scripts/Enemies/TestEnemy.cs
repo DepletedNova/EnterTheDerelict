@@ -12,24 +12,21 @@ using System.Threading.Tasks;
 
 namespace Assets.Scripts.Enemies
 {
-    public class TestEnemy : BaseAIShip
+    public class TestEnemy : BaseEnemyShip
     {
-        public override ShipType shipType => ShipType.ENEMY;
-		
 		public override (Ship ship, Weapon weapon) Defaults => (new BasicEnemyShip(), new DefaultWeapon());
 
-        public override List<ReactiveBehavior> ReactiveBehaviors => new List<ReactiveBehavior>()
-        {
-
-        };
         public override List<OrderedBehavior> OrderedBehaviors => new List<OrderedBehavior>()
         {
             new EnterGameBehavior(),
+            new FollowTargetBehavior(3, ShipType.PLAYER),
+            new AttackCrateBehavior(3),
         };
 
         public override List<string> BehaviorOrder => new List<string>()
         {
             "EnterGame",
+            //"AttackCrate"
         };
     }
 }

@@ -6,18 +6,17 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace Assets.Scripts.Weapons
+namespace Assets.Scripts.Weapons.Crate
 {
-    public class DefaultWeapon : Weapon
+    public class Railgun : Weapon
     {
-        public override double Firerate => 0.25f;
+        public override double Firerate => 2.5f;
 
         public override List<GameObject> onFire(BaseShip playerShip, bool activator = true)
         {
             List<GameObject> projectiles = new List<GameObject>()
             {
-                CreateProjectile(playerShip, 1, 5, 10, 1, new Vector3(.25f, .25f, 1), new Vector2(GetShipScale()/2, 0.25f)),
-                CreateProjectile(playerShip, 1, 5, 10, 1, new Vector3(.25f, .25f, 1), new Vector2(GetShipScale()/2, -0.25f)),
+                CreateProjectile(playerShip, 3, 35f, 30f, 4f, new Vector3(.2f, .8f, 1), new Vector2(GetShipScale(), 0))
             };
 
             return projectiles;

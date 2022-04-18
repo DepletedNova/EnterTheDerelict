@@ -13,16 +13,10 @@ using System.Threading.Tasks;
 
 namespace Assets.Scripts.Enemies
 {
-    public class SwarmEnemy : BaseAIShip
+    public class SwarmEnemy : BaseEnemyShip
     {
-        public override ShipType shipType => ShipType.ENEMY;
-		
 		public sealed override (Ship ship, Weapon weapon) Defaults => (new SwarmEnemyShip(), new EnemySwarmWeapon());
 
-        public override List<ReactiveBehavior> ReactiveBehaviors => new List<ReactiveBehavior>()
-        {
-            
-        };
         public override List<OrderedBehavior> OrderedBehaviors => new List<OrderedBehavior>()
         {
             new EnterGameBehavior(),

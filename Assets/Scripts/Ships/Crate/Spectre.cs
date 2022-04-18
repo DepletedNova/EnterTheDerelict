@@ -4,17 +4,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Assets.Scripts.Ships
+namespace Assets.Scripts.Ships.Crate
 {
-    public class DefaultShip : Ship
+    public class Spectre : Ship
     {
-        public override string VisualTag => "base";
+        public override string VisualTag => "spectre";
 
         public override float Health => 100;
         public override float Scale => 1f;
 
-        public override float Thrust => 1.5f;
-        public override float Drag => 1;
+        public override float Thrust => 2.2f;
+        public override float Drag => 1.2f;
         public override float Rotation => 1;
     }
 }

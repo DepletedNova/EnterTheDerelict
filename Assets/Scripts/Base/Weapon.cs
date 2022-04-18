@@ -21,7 +21,7 @@ namespace Assets.Scripts.Base
         // Projectile
         public virtual void onHit(BaseShip playerShip, Projectile projectile, BaseShip hitShip)
         {
-            hitShip.TakeDamage(projectile.Damage, playerShip);
+            hitShip.TakeDamage(projectile.Damage * playerShip.ProjectileDamageMod, playerShip.shipType);
         }
 
         protected GameObject CreateProjectile(BaseShip playerShip, uint pierce, float Damage, float Velocity, float Lifespan, Vector3 Collision, Vector2 Offset)
@@ -39,6 +39,7 @@ namespace Assets.Scripts.Base
             pComponent.Lifespan = Lifespan;
             pComponent.Parent = this;
             pComponent.Pierce = pierce;
+            pComponent.shipType = playerShip.shipType;
 
             pComponent.Momentum = Parent.Momentum;
 
@@ -47,7 +48,7 @@ namespace Assets.Scripts.Base
             return projectile;
         }
 
-        private IEnumerator CreateBurstEffect(float Delay, float Velocity, float Lifespan, Vector2 Offset, List<GameObject> Projectiles)
+        private IEnumerator CreateBurstEffect(float Delay, float Velocity, float Lifespan, Vector2 Offset, List<GameObject> Projectiles, float DegreeOffset)
         {
             foreach (var projectile in Projectiles)
             {
@@ -55,13 +56,16 @@ namespace Assets.Scripts.Base
                 component.Velocity = Velocity;
                 component.Lifespan = Lifespan;
                 component.Active = true;
-                projectile.transform.rotation = Parent.transform.rotation;
+                float angle;
+                Vector3 axis;
+                Parent.transform.rotation.ToAngleAxis(out angle, out axis);
+                projectile.transform.rotation = Quaternion.AngleAxis(angle + DegreeOffset, axis);
                 projectile.transform.position = Parent.transform.position + (Parent.transform.up * Offset.x) + (Parent.transform.right * Offset.y);
                 yield return new WaitForSeconds(Delay);
             }
         }
 
-        protected List<GameObject> CreateBurstProjectiles(int Amount, float Delay, uint Pierce, float Damage, float Velocity, float Lifespan, Vector3 Collision, Vector2 Offset)
+        protected List<GameObject> CreateBurstProjectiles(int Amount, float Delay, uint Pierce, float Damage, float Velocity, float Lifespan, Vector3 Collision, Vector2 Offset, float DegreeOffset)
         {
             List<GameObject> projectiles = new List<GameObject>();
             for (int x = 0; x < Amount; x++)
@@ -72,7 +76,7 @@ namespace Assets.Scripts.Base
                 projectiles.Add(projectile);
             }
 
-            Parent.StartCoroutine(CreateBurstEffect(Delay, Velocity, Lifespan, Offset, projectiles));
+            Parent.StartCoroutine(CreateBurstEffect(Delay, Velocity, Lifespan, Offset, projectiles, DegreeOffset));
 
             return projectiles;
         }
@@ -104,13 +108,10 @@ namespace Assets.Scripts.Base
             }
             else
             {
-                if (activator)
-                {
-                    var projectiles = onFire(playerShip, activator);
-                    // TODO add behavioral effects to projectiles
+                var projectiles = onFire(playerShip, activator);
+                // TODO add behavioral effects to projectiles
 
-                    return projectiles != null;
-                }
+                return projectiles != null;
             }
             return false;
         }

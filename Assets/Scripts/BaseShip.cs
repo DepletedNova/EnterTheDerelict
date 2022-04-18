@@ -1,4 +1,6 @@
+using Assets.Scripts;
 using Assets.Scripts.Base;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -27,7 +29,7 @@ public abstract class BaseShip : MonoBehaviour
     public float HullDamageMod = 1;
 
     public Vector3 Momentum = new Vector3();
-    protected bool Moving = false;
+    public bool Moving = false;
 	
 	public virtual void Start()
 	{
@@ -72,6 +74,12 @@ public abstract class BaseShip : MonoBehaviour
         shipData = newShip;
         Health = Health > newShip.Health ? newShip.Health : Health;
         gameObject.transform.localScale = Vector3.one * ScaleMod * shipData.Scale;
+        var spriteData = VisualData.shipColliders[shipData.VisualTag];
+        var spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
+        spriteRenderer.sprite = Resources.Load<Sprite>(spriteData.Texture);
+        spriteRenderer.color = shipType == ShipType.PLAYER ? spriteData.Colors.Ally : spriteData.Colors.Enemy;
+        gameObject.GetComponent<PolygonCollider2D>().points = spriteData.Points;
+        newShip.onUpdated(this);
     }
     public void UpdateWeapon(Weapon newWeapon)
     {
@@ -80,9 +88,9 @@ public abstract class BaseShip : MonoBehaviour
     }
 
     // Damage
-    public void TakeDamage(float amount, BaseShip Source)
+    public virtual void TakeDamage(float amount, ShipType shipType)
     {
-        if (Source != null && Source.shipType != shipType)
+        if (shipType != this.shipType)
         {
             if (invCurrent >= invTime)
             {
@@ -92,13 +100,14 @@ public abstract class BaseShip : MonoBehaviour
             }
         }
     }
-    public void DestroyShip()
+
+    public virtual void DestroyShip()
     {
-        var explosionPrefab = GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/Explosion"));
+        var explosionPrefab = GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/Particles/Explosion"));
         explosionPrefab.transform.position = gameObject.transform.position;
+        explosionPrefab.GetComponent<ParticleSystem>().startColor = gameObject.GetComponent<SpriteRenderer>().color;
         explosionPrefab.GetComponent<ParticleSystem>().Play();
         explosionPrefab.transform.localScale = gameObject.transform.localScale;
-        Destroy(explosionPrefab, 6);
         Destroy(gameObject);
     }
 
@@ -126,7 +135,10 @@ public abstract class BaseShip : MonoBehaviour
             Vector3 up = q * Vector3.up;
             Momentum -= up * 4;
             var hitShip = collision.gameObject.GetComponent<BaseShip>();
-            if (hitShip != null) TakeDamage(hitShip.shipData.HullDamage * hitShip.HullDamageMod, hitShip);
+            try
+            {
+                TakeDamage(hitShip.shipData.HullDamage * hitShip.HullDamageMod, hitShip.shipType);
+            } catch (Exception) { }
         }
     }
 }

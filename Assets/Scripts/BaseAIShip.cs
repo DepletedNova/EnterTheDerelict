@@ -24,6 +24,10 @@ namespace Assets.Scripts
         public override void FixedUpdate()
         {
             base.FixedUpdate();
+            var particleComp = GetComponent<ParticleSystem>();
+            if (Moving && !particleComp.isEmitting) particleComp.Play(true);
+            else if (!Moving && particleComp.isEmitting) particleComp.Stop(true, ParticleSystemStopBehavior.StopEmitting);
+
 
             if (triggerDelay <= 0)
             {

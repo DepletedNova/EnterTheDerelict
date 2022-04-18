@@ -8,11 +8,6 @@ namespace Assets.Scripts.Mutations
 {
     public abstract class Mutator
     {
-        public static List<Type> Mutations = new List<Type>()
-        {
-
-        };
-
         public enum MutationType
         {
             SHIP,
@@ -23,6 +18,6 @@ namespace Assets.Scripts.Mutations
 
         public abstract MutationType Type { get; }
 
-        public abstract void Init();
+        public abstract void Init(BaseShip ship);
     }
 }

@@ -15,7 +15,7 @@ namespace Assets.Scripts.Weapons.Enemy
 
         public override List<GameObject> onFire(BaseShip playerShip, bool activator = true)
         {
-            List<GameObject> projectiles = CreateSeveralProjectiles(8, playerShip, 1, 2, 5, 1, new Vector3(0.1f, 0.25f), new Vector2(GetShipScale(), 0));
+            List<GameObject> projectiles = CreateSeveralProjectiles(8, playerShip, 1, 2, 5, 1, new Vector3(0.1f, 0.25f), new Vector2(GetShipScale() / 2, 0));
             foreach (var proj in projectiles)
             {
                 var projComp = proj.GetComponent<Projectile>();

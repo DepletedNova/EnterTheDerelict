@@ -18,7 +18,8 @@ namespace Assets.Scripts
         public float Lifespan;
         public uint Pierce;
 
-        public Vector3 Momentum = new Vector3();
+        public Vector3 Momentum;
+        public Vector3 Up;
 
         public bool Active = false;
 

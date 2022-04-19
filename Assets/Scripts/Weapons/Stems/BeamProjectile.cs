@@ -14,7 +14,7 @@ namespace Assets.Scripts.Weapons.Stems
         private float HitTimer = 0f;
         public new void FixedUpdate()
         {
-            /*HitTimer += Time.fixedDeltaTime;
+            HitTimer += Time.fixedDeltaTime;
             if (HitTimer >= TickRate)
             {
                 HitTimer = 0f;
@@ -26,7 +26,7 @@ namespace Assets.Scripts.Weapons.Stems
                         ship.gameObject.GetComponent<BaseShip>().TakeDamage(Damage, Parent.Parent.shipType);
                     }
                 }
-            }*/
+            }
         }
 
         public new void OnTriggerEnter2D(Collider2D collision) { }

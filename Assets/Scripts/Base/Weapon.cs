@@ -42,6 +42,7 @@ namespace Assets.Scripts.Base
             pComponent.shipType = playerShip.shipType;
 
             pComponent.Momentum = Parent.Momentum;
+            pComponent.Up = playerShip.transform.up;
 
             pComponent.Active = true;
 

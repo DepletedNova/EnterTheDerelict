@@ -1,5 +1,7 @@
 ﻿using Assets.Scripts.Base;
 using Assets.Scripts.Mutations;
+using Assets.Scripts.Ships.Crate;
+using Assets.Scripts.Weapons.Crate;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,11 +20,17 @@ namespace Assets.Scripts
         };
         public static List<(float Weight, Weapon Weapon)> Weapons = new List<(float, Weapon)>()
         {
-
+            (1, new Flak()),
+            (1, new Pulse()),
+            (1, new Railgun()),
+            (1, new TripleBurst()),
         };
         public static List<(float Weight, Ship Ship)> Ships = new List<(float, Ship)>()
         {
-
+            (1, new Assault()),
+            (1, new Engineer()),
+            (1, new Sentry()),
+            (1, new Spectre()),
         };
 
         // Crate Physics
